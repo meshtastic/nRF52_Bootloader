@@ -27,6 +27,7 @@ The application uses Nordic's **SoftDevice**, a precompiled Bluetooth stack vend
 
 | Board | `BOARD=` name | SoftDevice | DFU screen |
 | --- | --- | --- | --- |
+| BQ Nano G2 Ultra ([See note](#notes-on-nano-g2-ultra)) | `nano_g2_ultra` | S140 7.3.0 | |
 | Elecrow ThinkNode M1 | `thinknode_m1` | S140 6.1.1 | |
 | Elecrow ThinkNode M3 | `thinknode_m3` | S140 6.1.1 | |
 | Elecrow ThinkNode M6 | `thinknode_m6` | S140 6.1.1 | |
@@ -72,6 +73,7 @@ In OTA DFU mode, devices advertise a board-specific name instead of the generic 
 | Minewsemi MX25LE01           | `MX25_DFU`               |
 | MuziWorks Base / Superbase   | `MUZI_DFU`               |
 | Meshtastic Generic           | `MESH_DFU`               |
+| BQ Nano G2 Ultra             | `NG2U_DFU`               |
 | ProMicro NRF52840            | `PROM_DFU`               |
 | RAK 4631                     | `4631_DFU`               |
 | RAK 3401                     | `3401_DFU`               |
@@ -146,6 +148,7 @@ The bootloader accepts an update whose USB vendor and product ID match its own. 
 | `239A:0029` | RAK4631, RAK3401, T-Echo, WisMesh Tag, MX25LE01, Meshtastic Generic (both) |
 | `239A:0071` | Heltec T096, T1, T114 |
 | `239A:00DA` | ThinkNode M1, M3, M6 |
+| `239A:00E2` | Nano G2 Ultra |
 | `2886:0044` | SenseCAP Solar Node P1, XIAO nRF52840 BLE |
 | `2886:0057` | T1000-E, MeshTracker X1 |
 | `2886:1667` | Wio Tracker L1, L1 Pro 1W |
@@ -289,6 +292,15 @@ To leave DFU mode, eject the drive (`eject`, `udisksctl power-off`, or Finder/Ex
 Avoid the 1200 bps serial touch on these boards: it selects serial-only DFU, which exposes no drive and has no eject. On 2.6.0 and later the 6-minute inactivity timer applies to it too, so a board with a valid application boots on its own; that path has not been exercised on hardware.
 
 To get the button path on a board with an older bootloader, enter UF2 mode from the application (`meshtastic --enter-dfu` or the Meshtastic Android app) and install `update-t1000_e_bootloader-*.uf2` (T1000-E) or `update-mesh_tracker_x1_bootloader-*.uf2` (X1) from the [releases](https://github.com/meshtastic/nRF52_Bootloader/releases). The boards share a USB ID, so the bootloader accepts the wrong board's file.
+
+## Notes on Nano G2 Ultra
+
+Support for this board was added without access to the physical hardware: it builds and links cleanly, but **has not been tested on a real device**. Two things in particular need confirming before relying on it:
+
+- The board appears to have no onboard LED (none found in the [firmware variant's](https://github.com/meshtastic/firmware/tree/master/variants/nrf52840/nano-g2-ultra) pin definitions), so this bootloader's UF2/BLE-OTA status is reported via the board's screen only — not supported by this bootloader today — meaning there's currently no visual status feedback in bootloader mode at all.
+- The board's single physical button is wired to both button slots this bootloader requires (see `src/boards/nano_g2_ultra/board.h`), and its USB PID was picked to avoid colliding with other boards in this repo rather than confirmed against a real allocation.
+
+If you have this hardware, please try it and report back on [the tracking issue](https://github.com/meshtastic/Adafruit_nRF52_Bootloader_OTAFIX/issues/4).
 
 ---
 
