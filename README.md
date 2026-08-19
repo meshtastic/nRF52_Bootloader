@@ -40,7 +40,7 @@ The application uses Nordic's **SoftDevice**, a precompiled Bluetooth stack vend
 | Meshtastic Generic, S140 7.3.0 | `meshtastic_7.3.0` | S140 7.3.0 | |
 | Nologo ProMicro NRF52840 (aka SuperMini NRF52840) | `promicro_nrf52840` | S140 6.1.1 | I2C OLED |
 | RAK 3401 | `wiscore_rak3401` | S140 6.1.1 | I2C OLED |
-| RAK 4631 ([See note](#notes-on-rak4631-bootloader)) | `wiscore_rak4631_board` | S140 6.1.1 | I2C OLED |
+| RAK 4631, also NomadStar Meteor Pro ([See note](#notes-on-rak4631-bootloader)) | `wiscore_rak4631_board` | S140 6.1.1 | I2C OLED |
 | RAK WisMesh Tag | `wismesh_tag` | S140 6.1.1 | |
 | Seeed Studio SenseCAP Card Tracker T1000-E ([See note](#notes-on-single-button-boards-t1000-e-and-meshtracker-x1)) | `t1000_e` | S140 7.3.0 | |
 | Seeed Studio SenseCAP MeshTracker X1 ([See note](#notes-on-single-button-boards-t1000-e-and-meshtracker-x1)) | `mesh_tracker_x1` | S140 7.3.0 | |
@@ -277,6 +277,8 @@ The two variants have different USB product IDs (`2886:0044` and `2886:0045`), s
 ## Notes on RAK4631 bootloader
 
 This bootloader is based on Adafruit 0.9.2; RAK Wireless's official one is based on 0.6.2-11. Testing found no problems; whether RAK's own patches make a behavioral difference has not been investigated. A variant of the official RAK bootloader with these patches is [available](https://github.com/oltaco/WisCore_RAK4631_Bootloader/releases).
+
+**NomadStar Meteor Pro** is RAK4631-based hardware with an added RGBW LED and e-ink display on a WisBlock IO module. Its [firmware variant](https://github.com/meshtastic/firmware/tree/master/variants/nrf52840/rak4631_nomadstar_meteor_pro) differs from plain RAK4631's only at the peripheral level (the RGB LED driver chip, sensor I2C addresses, a buzzer pin, battery-sense calibration), nothing the bootloader's MCU, flash or USB identity touches. It should take the RAK4631 UF2 unchanged, but **this has not been confirmed on real hardware**. If you have one, please try it and report back on [issue #5](https://github.com/meshtastic/nRF52_Bootloader/issues/5).
 
 ## Notes on single-button boards: T1000-E and MeshTracker X1
 
