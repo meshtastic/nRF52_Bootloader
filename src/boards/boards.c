@@ -1171,6 +1171,20 @@ void board_display_teardown(void) {
     _display_present = false;
   }
   nrf_twim_disable(_twim);
+
+  // The application starts with no reset in between and the Arduino core never
+  // writes SHORTS: a LASTTX_STOP left here stops its repeated-start transfers,
+  // and it then waits for SUSPENDED with no timeout.
+  nrf_twim_shorts_set(_twim, 0);
+  nrf_twim_event_clear(_twim, NRF_TWIM_EVENT_STOPPED);
+  nrf_twim_event_clear(_twim, NRF_TWIM_EVENT_ERROR);
+  nrf_twim_event_clear(_twim, NRF_TWIM_EVENT_SUSPENDED);
+  nrf_twim_event_clear(_twim, NRF_TWIM_EVENT_RXSTARTED);
+  nrf_twim_event_clear(_twim, NRF_TWIM_EVENT_TXSTARTED);
+  nrf_twim_event_clear(_twim, NRF_TWIM_EVENT_LASTRX);
+  nrf_twim_event_clear(_twim, NRF_TWIM_EVENT_LASTTX);
+  (void) nrf_twim_errorsrc_get_and_clear(_twim);
+  nrf_twim_pins_set(_twim, 0xFFFFFFFF, 0xFFFFFFFF);
 }
 
 static bool oled_write_page(uint8_t page, uint8_t col, uint8_t const* buf, size_t nbytes) {
