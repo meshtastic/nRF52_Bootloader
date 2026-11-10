@@ -6,7 +6,7 @@ provenance.
 
 ## 2.6.1
 
-- Fixed the first application boot after a DFU stalling and ending in a watchdog reset about 90 s later on boards with an I2C OLED DFU screen. 2.6.0 left TWIM0 with the `LASTTX_STOP` short, the pin selects and the last transfer's events set when it jumped to the application, and the Arduino core's repeated-start transfers never finish with that short in place. `board_display_teardown()` now returns TWIM0 to its reset state. Measured on a WisMesh Pocket after a UF2 copy and after a BLE OTA.
+- Fixed the first application boot after a DFU stalling and ending in a watchdog reset about 90 s later on boards with an I2C OLED DFU screen. 2.6.0 left TWIM0 with the `LASTTX_STOP` short, the pin selects and the last transfer's events set when it jumped to the application, and the Arduino core's repeated-start transfers never finish with that short in place. `board_display_teardown()` now clears `SHORTS`, the events and `ERRORSRC`, and disconnects the pin selects. Measured on a WisMesh Pocket after a UF2 copy and after a BLE OTA.
 
 ## 2.6.0
 
