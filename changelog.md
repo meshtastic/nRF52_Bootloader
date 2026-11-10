@@ -4,6 +4,10 @@
 from 0.6.2 down predates it and is upstream Adafruit history, kept for
 provenance.
 
+## 2.6.1
+
+- Fixed the first application boot after a DFU stalling and ending in a watchdog reset about 90 s later on boards with an I2C OLED DFU screen. 2.6.0 left TWIM0 with the `LASTTX_STOP` short, the pin selects and the last transfer's events set when it jumped to the application, and the Arduino core's repeated-start transfers never finish with that short in place. `board_display_teardown()` now returns TWIM0 to its reset state. Measured on a WisMesh Pocket after a UF2 copy and after a BLE OTA.
+
 ## 2.6.0
 
 - The project is renamed the Meshtastic nRF52 Bootloader (repo `meshtastic/nRF52_Bootloader`), and releases are tagged plain `x.y.z` from 2.6.0, continuing the OTAFIX numbering. Board-IDs, BLE names and asset file names are unchanged. The DFU banner on color-screen boards reads `meshtastic.org`.
