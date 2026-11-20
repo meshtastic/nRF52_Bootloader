@@ -101,7 +101,7 @@ The package replaces the SoftDevice, which marks the installed application inval
 
 ### Entering UF2 mode
 
-- **Double-press reset** within half a second. The drive stays until you copy a file, eject, or reset. On a board with a valid application it also closes after 6 minutes with no activity (2.6.0 and later).
+- **Double-press reset** within half a second. The drive stays until you copy a firmware file or reset. An eject leaves UF2 mode only on the [single-button boards](#notes-on-single-button-boards-t1000-e-and-meshtracker-x1); on every other board the host remounts the drive. On a board with a valid application it also closes after 6 minutes with no activity (2.6.0 and later).
 - **Hold the button through power-on** on the single-button boards, see the [single-button note](#notes-on-single-button-boards-t1000-e-and-meshtracker-x1).
 - **From the application:** `meshtastic --enter-dfu` over USB, or the Meshtastic Android app's firmware-update screen on a USB connection. The board needs a USB host within 3 seconds, otherwise it boots the application again.
 - **No valid application:** the device goes to the drive on its own whenever a USB host is attached (2.6.0 and later).
