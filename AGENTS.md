@@ -108,7 +108,7 @@ lets the gate decide again, the magic forces the wait.
 boots a valid application after `DFU_INACTIVITY_TIMEOUT_MS` (6 minutes) of
 idle. Idle is the absence of `dfu_activity()` calls: the BLE transport calls
 it on connect and on every DFU event, the serial transport on every packet,
-`msc_uf2.c` on every MSC read and write, and `usb.c` on USB mount. A new
+`msc_uf2.c` on every accepted UF2 block (reads and non-UF2 writes do not count, so a host polling an idle drive cannot hold it), and `usb.c` on USB mount. A new
 transport or activity source must call it, or the timer boots the
 application mid-session. The tick keeps running with no valid application,
 but the exit is skipped, so the wait continues.

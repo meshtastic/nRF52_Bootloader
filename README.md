@@ -101,7 +101,7 @@ The package replaces the SoftDevice, which marks the installed application inval
 
 ### Entering UF2 mode
 
-- **Double-press reset** within half a second. The drive stays until you copy a file, eject, or reset. On a board with a valid application it also closes after 6 minutes with no activity (2.6.0 and later).
+- **Double-press reset** within half a second. The drive stays until you copy a firmware file, eject, or reset. On 2.6.1 and earlier an eject leaves UF2 mode only on the [single-button boards](#notes-on-single-button-boards-t1000-e-and-meshtracker-x1); on every other board the host remounts the drive. On a board with a valid application the drive also closes after 6 minutes with no activity (2.6.0 and later).
 - **Hold the button through power-on** on the single-button boards, see the [single-button note](#notes-on-single-button-boards-t1000-e-and-meshtracker-x1).
 - **From the application:** `meshtastic --enter-dfu` over USB, or the Meshtastic Android app's firmware-update screen on a USB connection. The board needs a USB host within 3 seconds, otherwise it boots the application again.
 - **No valid application:** the device goes to the drive on its own whenever a USB host is attached (2.6.0 and later).
@@ -131,9 +131,9 @@ Routing when the device has **no valid application** (2.6.0 and later):
 - On a charger or power bank (VBUS, no host enumerating within 3 seconds) it goes to the BLE OTA wait.
 - Pulling the cable while the drive is up sends it to the BLE OTA wait.
 - Plugging a cable into a device in the BLE OTA wait, with no phone connected, brings the drive up. A cable already present when the wait began, or a connected phone, leaves the wait alone.
-- A rejected or aborted copy, or an eject on a [single-button board](#notes-on-single-button-boards-t1000-e-and-meshtracker-x1), returns it to the drive.
+- A rejected or aborted copy, or an eject, returns it to the drive.
 
-A device **with** a valid application left in DFU mode boots it after 6 minutes with no activity (2.6.0 and later). A BLE connection or DFU transfer, a read or write of the drive, a USB host enumerating, or serial DFU traffic restarts the 6 minutes; an idle BLE link does not.
+A device **with** a valid application left in DFU mode boots it after 6 minutes with no activity (2.6.0 and later). A BLE connection or DFU transfer, a UF2 block the bootloader accepts, a USB host enumerating, or serial DFU traffic restarts the 6 minutes; an idle BLE link does not. On 2.6.1 and earlier any read or write of the drive also restarts it, so a host that keeps a mounted drive busy holds the board in DFU.
 
 ### Updating the bootloader
 

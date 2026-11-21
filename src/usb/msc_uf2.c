@@ -155,7 +155,6 @@ int32_t tud_msc_scsi_cb (uint8_t lun, uint8_t const scsi_cmd[16], void* buffer, 
 int32_t tud_msc_read10_cb (uint8_t lun, uint32_t lba, uint32_t offset, void* buffer, uint32_t bufsize)
 {
   (void) lun;
-  dfu_activity();
   memset(buffer, 0, bufsize);
 
   // since we return block size each, offset should always be zero
@@ -180,14 +179,18 @@ int32_t tud_msc_read10_cb (uint8_t lun, uint32_t lba, uint32_t offset, void* buf
 int32_t tud_msc_write10_cb (uint8_t lun, uint32_t lba, uint32_t offset, uint8_t* buffer, uint32_t bufsize)
 {
   (void) lun;
-  dfu_activity();
 
   uint32_t count = 0;
   while ( count < bufsize )
   {
     // Non-uf2 and rejected blocks count as consumed like good ones.
     // The loop only stops early on a 0 return, which write_block never gives.
-    if ( 0 == write_block(lba, buffer, &_wr_state) ) break;
+    int const ret = write_block(lba, buffer, &_wr_state);
+    if ( 0 == ret ) break;
+
+    // Only an accepted UF2 block is activity: reads and the host's own FAT
+    // writes would otherwise keep an idle mounted drive in DFU forever.
+    if ( ret > 0 ) dfu_activity();
 
     lba++;
     buffer += 512;
@@ -345,15 +348,13 @@ bool tud_msc_start_stop_cb(uint8_t lun, uint8_t power_condition, bool start, boo
         app_timer_stop(_factory_erase_timer);
         factory_erase_reset_now();
       }
-#ifdef UF2_EXIT_ON_EJECT
       else
       {
-        // Boards with no usable RESET button cannot leave UF2 mode by resetting,
-        // and the host will simply re-mount the drive if we stay enumerated. Treat
-        // the eject as "done here" and leave the DFU loop so the application boots.
+        // The host re-mounts the drive if we stay enumerated, so treat the eject
+        // as "done here" and leave the DFU loop. main() boots a valid application
+        // and brings the drive back when there is none.
         dfu_leave_event_loop();
       }
-#endif
     }
   }
 

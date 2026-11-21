@@ -76,8 +76,8 @@ are open examples. To actually submit the board yourself:
    - `BUTTON_DFU_HOLD` and `BUTTON_DFU_HOLD_MS` for a board with one button
      and no usable RESET button: holding that button through boot enters
      UF2 mode, and the momentary `BUTTON_DFU`/`BUTTON_FRESET` checks are
-     skipped. Pair it with `UF2_EXIT_ON_EJECT` so a host eject leaves DFU,
-     since there is no reset button to leave by. `t1000_e` and
+     skipped. A host eject leaves DFU on every board, which is the only
+     way out when there is no reset button. `t1000_e` and
      `mesh_tracker_x1` are the examples.
    - Without `BUTTON_DFU_HOLD`, a `BUTTON_DFU` held through reset enters
      BLE OTA mode, never UF2 mode. `BUTTON_PULL` must match the board's

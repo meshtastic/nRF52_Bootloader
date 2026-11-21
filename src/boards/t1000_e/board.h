@@ -58,11 +58,6 @@
 #define BUTTON_DFU_HOLD       BUTTON_1
 #define BUTTON_DFU_HOLD_MS    3000
 
-/* With no RESET button there is also no way to reset out of UF2 mode once in
- * it, and the host just re-mounts the drive if we stay enumerated. Ejecting the
- * drive therefore leaves DFU and boots the application. */
-#define UF2_EXIT_ON_EJECT
-
 //--------------------------------------------------------------------+
 // BLE OTA
 //--------------------------------------------------------------------+
