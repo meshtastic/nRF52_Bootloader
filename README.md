@@ -30,6 +30,7 @@ The application uses Nordic's **SoftDevice**, a precompiled Bluetooth stack vend
 | Elecrow ThinkNode M1 | `thinknode_m1` | S140 6.1.1 | |
 | Elecrow ThinkNode M3 | `thinknode_m3` | S140 6.1.1 | |
 | Elecrow ThinkNode M6 | `thinknode_m6` | S140 6.1.1 | |
+| Heltec MeshPocket (5000 / 10000 mAh) | `heltec_mesh_pocket` | S140 6.1.1 | |
 | Heltec T096 | `heltec_t096` | S140 6.1.1 | SPI TFT |
 | Heltec T1 | `heltec_t1` | S140 6.1.1 | SPI TFT |
 | Heltec T114 / HT-nRF5262 | `heltec_t114` | S140 6.1.1 | SPI TFT |
@@ -65,6 +66,7 @@ In OTA DFU mode, devices advertise a board-specific name instead of the generic 
 | Elecrow ThinkNode M1         | `TNM1_DFU`               |
 | Elecrow ThinkNode M3         | `TNM3_DFU`               |
 | Elecrow ThinkNode M6         | `TNM6_DFU`               |
+| Heltec MeshPocket            | `MPKT_DFU`               |
 | Heltec T096                  | `T096_DFU`               |
 | Heltec T1                    | `T1_DFU`                 |
 | Heltec T114                  | `T114_DFU`               |
@@ -144,7 +146,7 @@ The bootloader accepts an update whose USB vendor and product ID match its own. 
 | USB ID | Boards that share it |
 | --- | --- |
 | `239A:0029` | RAK4631, RAK3401, T-Echo, WisMesh Tag, MX25LE01, Meshtastic Generic (both) |
-| `239A:0071` | Heltec T096, T1, T114 |
+| `239A:0071` | Heltec MeshPocket, T096, T1, T114 |
 | `239A:00DA` | ThinkNode M1, M3, M6 |
 | `2886:0044` | SenseCAP Solar Node P1, XIAO nRF52840 BLE |
 | `2886:0057` | T1000-E, MeshTracker X1 |
