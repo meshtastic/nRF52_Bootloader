@@ -6,6 +6,7 @@ provenance.
 
 ## Unreleased
 
+- New board: Heltec MeshPocket (5000 and 10000 mAh), with S140 6.1.1 and BLE OTA DFU name `MPKT_DFU`.
 - Ejecting the UF2 drive leaves DFU and boots a valid application on every board, not only `t1000_e` and `mesh_tracker_x1`; `UF2_EXIT_ON_EJECT` is gone. With no valid application the drive returns, and an eject right after a factory erase still resets back into UF2 mode.
 - The 6 minute idle exit is restarted only by an accepted UF2 block, USB enumeration, and BLE or serial DFU traffic. UF2 drive reads and the host's own FAT writes no longer count, so a host that keeps a mounted drive busy cannot hold a board with a valid application in DFU.
 
